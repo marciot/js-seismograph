@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Step Analysis</title>
+        <style>
+            canvas {
+                //width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="xGraph"></canvas>
+        <canvas id="yGraph"></canvas>
+        <canvas id="zGraph"></canvas>
+        <canvas id="allGraph"></canvas>
+        <script src="data/data.json"></script>
+        <script>
+        
+            function plotAxis(canvas, axis, data, color) {
+            
+                // Compute the range of the data
+                var max = -Infinity;
+                var min = Infinity;
+                for(i = 0; i < data.length; i++) {
+                    max = Math.max(data[i][axis], max);
+                    min = Math.min(data[i][axis], min);
+                }
+                
+                var tMax = data[data.length-1][0];
+                
+                function yScale(y) {
+                    return (y - min)/(max - min);
+                }
+                function tScale(t) {
+                    return t/tMax;
+                }
+                
+                const tStretch = 2;
+                if(canvas.width != data.length * tStretch) {
+                    canvas.width = data.length * tStretch;
+                    canvas.height = 200;
+                }
+                
+                var ctx = canvas.getContext("2d");
+                ctx.strokeStyle=color || "black";
+                ctx.beginPath();
+                ctx.moveTo(0,0);
+                for(i = 0; i < data.length; i++) {
+                    const t = tScale(data[i][0])    * canvas.width;
+                    const y = yScale(data[i][axis]) * canvas.height;
+                    ctx.lineTo(t,y);
+                }
+                ctx.stroke();
+                
+                // Draw the axis
+                ctx.strokeStyle="black";
+                ctx.setLineDash([5, 15]);
+                ctx.beginPath();
+                ctx.moveTo(0, 0.5 * canvas.height);
+                ctx.lineTo(canvas.width, 0.5 * canvas.height);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+                
+            window.onload = function() {
+                plotAxis(document.getElementById("xGraph"), 1, data);
+                plotAxis(document.getElementById("yGraph"), 2, data);
+                plotAxis(document.getElementById("zGraph"), 3, data);
+                plotAxis(document.getElementById("allGraph"), 1, data,  "red");
+                //plotAxis(document.getElementById("allGraph"), 2, data,  "blue");
+                plotAxis(document.getElementById("allGraph"), 3, data,  "green");
+            }
+        </script>
+    </body>
+</html>

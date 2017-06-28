@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Step Detection</title>
+        <script>
+            /**
+             *
+             * @licstart
+             *
+             * Copyright (C) 2017 Marcio L Teixeira.
+             *
+             *
+             * The JavaScript code in this page is free software: you can
+             * redistribute it and/or modify it under the terms of the GNU Affero
+             * General Public License (GNU AGPL) as published by the Free Software
+             * Foundation, either version 3 of the License, or (at your option)
+             * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+             * without even the implied warranty of MERCHANTABILITY or FITNESS
+             * FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+             *
+             * As additional permission under GNU AGPL version 3 section 7, you
+             * may distribute non-source (e.g., minimized or compacted) forms of
+             * that code without the copy of the GNU AGPL normally required by
+             * section 4, provided you include this license notice and a URL
+             * through which recipients can access the Corresponding Source.
+             *
+             * @licend
+             *
+             */
+        </script>
+    </head>
+    <body>
+        <script src="StepDetection.js"></script>
+        <script>
+            WebVRConfig = {
+                ALWAYS_APPEND_POLYFILL_DISPLAY: true
+            };
+        </script>
+        <script src="libs/three.js"></script>
+        <script src="libs/webvr-polyfill.js"></script>
+        <button id="send">Send</button>
+        <script>
+            window.onload = function() {
+                var detector = new DataCollection();
+                
+                document.getElementById("send").onclick = () => detector.sendData();
+            }
+        </script>
+        <span id="status"></span>
+    </body>
+</html>
